@@ -27,7 +27,7 @@ export const filterAuthors = query => {
 };
 
 //POST THE AUTHOR TO https://the-index-api.herokuapp.com/api/authors/
-export const postAuthor = (newAuthor, closeModal) => {
+export const postAuthor = (newAuthor, resetForm, closeModal) => {
   return async dispatch => {
     try {
       const res = await instance.post("/api/authors/", newAuthor);
@@ -38,6 +38,7 @@ export const postAuthor = (newAuthor, closeModal) => {
         payload: author
       });
       dispatch(filterAuthors(""));
+      resetForm();
       closeModal();
     } catch (err) {
       dispatch({

@@ -15,9 +15,21 @@ class AuthorForm extends Component {
     if (this.props.errors.length) this.props.resetErrors();
   }
 
+  // handle changes in the form 
+  textChangeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  //used to reset the form 
+  resetForm = () => this.setState({
+    first_name: "",
+    last_name: "",
+    imageUrl: ""
+  })
+
   submitAuthor = event => {
     event.preventDefault();
-    this.props.postAuthor(this.state, this.props.closeModal);
+    this.props.postAuthor(this.state, this.resetForm, this.props.closeModal);
   };
 
   render() {
@@ -37,21 +49,38 @@ class AuthorForm extends Component {
             <div className="input-group-prepend">
               <span className="input-group-text">First Name</span>
             </div>
-            <input type="text" className="form-control" name="first_name" />
+            <input
+              type="text"
+              className="form-control"
+              name="first_name"
+              value={this.state.first_name}
+              onChange={this.textChangeHandler} />
           </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Last Name</span>
             </div>
-            <input type="text" className="form-control" name="last_name" />
+            <input
+              type="text"
+              className="form-control"
+              name="last_name"
+              value={this.state.last_name}
+              onChange={this.textChangeHandler} /> />
           </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Image URL</span>
             </div>
-            <input type="text" className="form-control" name="imageUrl" />
+            <input
+              type="text"
+              className="form-control"
+              name="imageUrl"
+              value={this.state.imageUrl}
+              onChange={this.textChangeHandler} />
+            />
           </div>
-          <input type="submit" />
+          <input
+            type="submit" />
         </form>
       </div>
     );
@@ -66,8 +95,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postAuthor: (newAuthor, closeModal) =>
-      dispatch(actionCreators.postAuthor(newAuthor, closeModal)),
+    postAuthor: (newAuthor, resetForm, closeModal) =>
+      dispatch(actionCreators.postAuthor(newAuthor, resetForm, closeModal)),
     resetErrors: () => dispatch(actionCreators.resetErrors())
   };
 };
